@@ -14,6 +14,7 @@ class IAPError {
   IAPError(
       {required this.source,
       required this.code,
+        this.domainCode,
       required this.message,
       this.details});
 
@@ -23,6 +24,9 @@ class IAPError {
   /// The error code.
   final String code;
 
+  /// The error domain code. For example, return PurchaseErrorCode in purchase process.
+  final int? domainCode;
+
   /// A human-readable error message.
   final String message;
 
@@ -31,6 +35,6 @@ class IAPError {
 
   @override
   String toString() {
-    return 'IAPError(code: $code, source: $source, message: $message, details: $details)';
+    return 'IAPError(code: $code, source: $source, domainCode: $domainCode, message: $message, details: $details)';
   }
 }

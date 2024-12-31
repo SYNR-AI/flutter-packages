@@ -8,7 +8,7 @@ if (localPropertiesFile.exists()) {
 
 // Load the build signing secrets from a local `keystore.properties` file.
 // TODO(YOU): Create release keys and a `keystore.properties` file. See
-// `example/README.md` for more info and `keystore.example.properties` for an
+// `example/README.md` for more info and `keystore.properties` for an
 // example.
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
@@ -22,7 +22,7 @@ try {
 
 project.ext {
     // TODO(YOU): Create release keys and a `keystore.properties` file. See
-    // `example/README.md` for more info and `keystore.example.properties` for an
+    // `example/README.md` for more info and `keystore.properties` for an
     // example.
     APP_ID = configured ? keystoreProperties['appId'] : "io.flutter.plugins.inapppurchaseexample.DEFAULT_DO_NOT_USE"
     KEYSTORE_STORE_FILE = configured ? rootProject.file(keystoreProperties['storeFile']) : null
@@ -56,6 +56,12 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 android {
     namespace 'io.flutter.plugins.inapppurchaseexample'
     signingConfigs {
+        debug {
+            storeFile project.KEYSTORE_STORE_FILE
+            storePassword project.KEYSTORE_STORE_PASSWORD
+            keyAlias project.KEYSTORE_KEY_ALIAS
+            keyPassword project.KEYSTORE_KEY_PASSWORD
+        }
         release {
             storeFile project.KEYSTORE_STORE_FILE
             storePassword project.KEYSTORE_STORE_PASSWORD
@@ -64,13 +70,13 @@ android {
         }
     }
 
-    compileSdk flutter.compileSdkVersion
+    compileSdk 34
 
 
     defaultConfig {
         applicationId project.APP_ID
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion 28
+        targetSdkVersion 34
+        minSdkVersion 21
         versionCode project.VERSION_CODE
         versionName project.VERSION_NAME
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -107,10 +113,10 @@ flutter {
 }
 
 dependencies {
-    implementation 'com.android.billingclient:billing:3.0.2'
+    implementation 'com.android.billingclient:billing:7.1.1'
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:5.0.0'
+    testImplementation 'org.mockito:mockito-core:5.4.0'
     testImplementation 'org.json:json:20240303'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 }

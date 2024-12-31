@@ -32,3 +32,11 @@ enum PurchaseStatus {
   /// Update your UI to indicate the purchase is canceled.
   canceled,
 }
+
+enum PurchaseErrorCode {
+  unknown,
+  serviceUnavailable,
+  itemUnavailable,
+  itemAlreadyOwned,
+  networkError
+}

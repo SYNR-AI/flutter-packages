@@ -272,9 +272,30 @@ class InAppPurchaseAndroidPlatform extends InAppPurchasePlatform {
       PurchasesResultWrapper resultWrapper) async {
     IAPError? error;
     if (resultWrapper.responseCode != BillingResponse.ok) {
+      int domainCode = PurchaseErrorCode.unknown.index;
+      switch (resultWrapper.responseCode) {
+        case BillingResponse.serviceDisconnected:
+        case BillingResponse.serviceTimeout:
+        case BillingResponse.serviceUnavailable:
+          domainCode = PurchaseErrorCode.serviceUnavailable.index;
+          break;
+        case BillingResponse.networkError:
+          domainCode = PurchaseErrorCode.networkError.index;
+          break;
+        case BillingResponse.itemUnavailable:
+          domainCode = PurchaseErrorCode.itemUnavailable.index;
+          break;
+        case BillingResponse.itemAlreadyOwned:
+          domainCode = PurchaseErrorCode.itemAlreadyOwned.index;
+          break;
+        default:
+          domainCode = PurchaseErrorCode.unknown.index;
+          break;
+      }
       error = IAPError(
         source: kIAPSource,
         code: kPurchaseErrorCode,
+        domainCode: domainCode,
         message: resultWrapper.responseCode.toString(),
         details: resultWrapper.billingResult.debugMessage,
       );

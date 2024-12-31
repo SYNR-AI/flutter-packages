@@ -1086,19 +1086,6 @@ public class Messages {
       this.product = setterArg;
     }
 
-    private @NonNull Long prorationMode;
-
-    public @NonNull Long getProrationMode() {
-      return prorationMode;
-    }
-
-    public void setProrationMode(@NonNull Long setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"prorationMode\" is null.");
-      }
-      this.prorationMode = setterArg;
-    }
-
     private @NonNull Long replacementMode;
 
     public @NonNull Long getReplacementMode() {
@@ -1175,7 +1162,6 @@ public class Messages {
       }
       PlatformBillingFlowParams that = (PlatformBillingFlowParams) o;
       return product.equals(that.product)
-          && prorationMode.equals(that.prorationMode)
           && replacementMode.equals(that.replacementMode)
           && Objects.equals(offerToken, that.offerToken)
           && Objects.equals(accountId, that.accountId)
@@ -1188,7 +1174,6 @@ public class Messages {
     public int hashCode() {
       return Objects.hash(
           product,
-          prorationMode,
           replacementMode,
           offerToken,
           accountId,
@@ -1266,7 +1251,6 @@ public class Messages {
       public @NonNull PlatformBillingFlowParams build() {
         PlatformBillingFlowParams pigeonReturn = new PlatformBillingFlowParams();
         pigeonReturn.setProduct(product);
-        pigeonReturn.setProrationMode(prorationMode);
         pigeonReturn.setReplacementMode(replacementMode);
         pigeonReturn.setOfferToken(offerToken);
         pigeonReturn.setAccountId(accountId);
@@ -1281,7 +1265,6 @@ public class Messages {
     ArrayList<Object> toList() {
       ArrayList<Object> toListResult = new ArrayList<>(8);
       toListResult.add(product);
-      toListResult.add(prorationMode);
       toListResult.add(replacementMode);
       toListResult.add(offerToken);
       toListResult.add(accountId);
@@ -1295,8 +1278,6 @@ public class Messages {
       PlatformBillingFlowParams pigeonResult = new PlatformBillingFlowParams();
       Object product = pigeonVar_list.get(0);
       pigeonResult.setProduct((String) product);
-      Object prorationMode = pigeonVar_list.get(1);
-      pigeonResult.setProrationMode((Long) prorationMode);
       Object replacementMode = pigeonVar_list.get(2);
       pigeonResult.setReplacementMode((Long) replacementMode);
       Object offerToken = pigeonVar_list.get(3);
