@@ -4,8 +4,8 @@
 
 import 'package:in_app_purchase_platform_interface/in_app_purchase_platform_interface.dart';
 import '../in_app_purchase_storekit.dart';
-
 import '../store_kit_wrappers.dart';
+import '../store_kit_2_wrappers.dart';
 
 /// Contains InApp Purchase features that are only available on iOS.
 class InAppPurchaseStoreKitPlatformAddition
@@ -32,7 +32,7 @@ class InAppPurchaseStoreKitPlatformAddition
       // ignore: avoid_print
       print(
           'Something is wrong while fetching the receipt, this normally happens when the app is '
-          'running on a simulator: $e');
+              'running on a simulator: $e');
       return null;
     }
   }
@@ -60,4 +60,20 @@ class InAppPurchaseStoreKitPlatformAddition
   /// See documentation of StoreKit's [`-[SKPaymentQueue showPriceConsentIfNeeded]`](https://developer.apple.com/documentation/storekit/skpaymentqueue/3521327-showpriceconsentifneeded?language=objc).
   Future<void> showPriceConsentIfNeeded() =>
       SKPaymentQueueWrapper().showPriceConsentIfNeeded();
+
+  Future<Map<String, bool>> checkIsEligibleForIntroOffer(
+      Set<String> identifiers) async {
+    Map<String, bool> eligiballeProducts = {};
+    try {
+      List<SK2Product> products = await SK2Product.products(
+          identifiers.toList());
+      for(SK2Product product in products) {
+        eligiballeProducts[product.id]=product.subscription?.isEligibleForIntroOffer??false;
+      }
+    } catch (e) {
+      print(
+          'Something is wrong while check isEligibleForIntroOffer, this normally happens when system version is lower than 15.0: $e');
+    }
+    return eligiballeProducts;
+  }
 }

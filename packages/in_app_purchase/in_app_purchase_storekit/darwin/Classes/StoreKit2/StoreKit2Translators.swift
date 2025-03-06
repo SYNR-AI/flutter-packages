@@ -7,19 +7,19 @@ import StoreKit
 
 @available(iOS 15.0, macOS 12.0, *)
 extension Product {
-  var convertToPigeon: SK2ProductMessage {
+    func convertToPigeon() async -> SK2ProductMessage {
 
-    return SK2ProductMessage(
-      id: id,
-      displayName: displayName,
-      description: description,
-      price: NSDecimalNumber(decimal: price).doubleValue,
-      displayPrice: displayPrice,
-      type: type.convertToPigeon,
-      subscription: subscription?.convertToPigeon,
-      priceLocale: priceFormatStyle.locale.convertToPigeon
-    )
-  }
+      return await SK2ProductMessage(
+        id: id,
+        displayName: displayName,
+        description: description,
+        price: NSDecimalNumber(decimal: price).doubleValue,
+        displayPrice: displayPrice,
+        type: type.convertToPigeon,
+        subscription: subscription?.convertToPigeon(),
+        priceLocale: priceFormatStyle.locale.convertToPigeon
+      )
+    }
 }
 
 extension SK2ProductMessage: Equatable {
@@ -51,11 +51,13 @@ extension Product.ProductType {
 
 @available(iOS 15.0, macOS 12.0, *)
 extension Product.SubscriptionInfo {
-  var convertToPigeon: SK2SubscriptionInfoMessage {
+    func convertToPigeon() async -> SK2SubscriptionInfoMessage {
+      let isEligible: Bool = await isEligibleForIntroOffer
     return SK2SubscriptionInfoMessage(
       promotionalOffers: promotionalOffers.map({ $0.convertToPigeon }),
       subscriptionGroupID: subscriptionGroupID,
-      subscriptionPeriod: subscriptionPeriod.convertToPigeon)
+      subscriptionPeriod: subscriptionPeriod.convertToPigeon,
+      isEligibleForIntroOffer: isEligible)
   }
 }
 

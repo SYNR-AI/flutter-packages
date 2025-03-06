@@ -24,10 +24,10 @@ void main() {
 // To try without auto-consume on another platform, change `true` to `false` here.
 final bool _kAutoConsume = Platform.isIOS || true;
 
-const String _kConsumableId = 'story_test_1';
+const String _kConsumableId = 'com.zulution.museland_month_subscription_test_year';
 const String _kUpgradeId = 'upgrade';
 const String _kSilverSubscriptionId = 'subscription_silver';
-const String _kGoldSubscriptionId = 'subscription_gold';
+const String _kGoldSubscriptionId = 'com.zulution.museland_month_subscription_test_year';
 const List<String> _kProductIds = <String>[
   _kConsumableId,
   // _kUpgradeId,

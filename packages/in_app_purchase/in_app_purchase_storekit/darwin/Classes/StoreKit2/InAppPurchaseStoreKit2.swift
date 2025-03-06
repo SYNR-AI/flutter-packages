@@ -17,21 +17,23 @@ extension InAppPurchasePlugin: InAppPurchase2API {
   func products(
     identifiers: [String], completion: @escaping (Result<[SK2ProductMessage], Error>) -> Void
   ) {
-    Task {
-      do {
-        let products = try await Product.products(for: identifiers)
-        let productMessages = products.map {
-          $0.convertToPigeon
-        }
-        completion(.success(productMessages))
-      } catch {
-        completion(
-          .failure(
-            PigeonError(
-              code: "storekit2_products_error",
-              message: error.localizedDescription,
-              details: error.localizedDescription)))
+      Task {
+          do {
+              let products = try await Product.products(for: identifiers)
+              var productMessages: [SK2ProductMessage] = []
+              for product in products {
+                  let message = await product.convertToPigeon()
+                  productMessages.append(message)
+              }
+              completion(.success(productMessages))
+          } catch {
+              completion(
+                .failure(
+                    PigeonError(
+                        code: "storekit2_products_error",
+                        message: error.localizedDescription,
+                        details: error.localizedDescription)))
+          }
       }
-    }
   }
 }

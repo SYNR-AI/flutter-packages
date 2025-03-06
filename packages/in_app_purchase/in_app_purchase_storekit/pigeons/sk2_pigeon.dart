@@ -66,6 +66,7 @@ class SK2SubscriptionInfoMessage {
     required this.subscriptionGroupID,
     required this.promotionalOffers,
     required this.subscriptionPeriod,
+    required this.isEligibleForIntroOffer,
   });
 
   /// An array of all the promotional offers configured for this subscription.
@@ -78,6 +79,9 @@ class SK2SubscriptionInfoMessage {
 
   /// The duration that this subscription lasts before auto-renewing.
   final SK2SubscriptionPeriodMessage subscriptionPeriod;
+
+  final bool isEligibleForIntroOffer;
+
 }
 
 /// A Pigeon message class representing a Product

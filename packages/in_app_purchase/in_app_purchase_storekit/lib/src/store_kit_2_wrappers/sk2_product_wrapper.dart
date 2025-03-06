@@ -132,6 +132,7 @@ class SK2SubscriptionInfo {
     required this.subscriptionGroupID,
     required this.promotionalOffers,
     required this.subscriptionPeriod,
+    required this.isEligibleForIntroOffer
   });
 
   /// An array of all the promotional offers configured for this subscription.
@@ -142,6 +143,8 @@ class SK2SubscriptionInfo {
 
   /// The duration that this subscription lasts before auto-renewing.
   final SK2SubscriptionPeriod subscriptionPeriod;
+
+  final bool isEligibleForIntroOffer;
 }
 
 extension on SK2SubscriptionInfoMessage {
@@ -156,7 +159,8 @@ extension on SK2SubscriptionInfoMessage {
             .map((SK2SubscriptionOfferMessage offer) =>
                 offer.convertFromPigeon())
             .toList(),
-        subscriptionPeriod: subscriptionPeriod.convertFromPigeon());
+        subscriptionPeriod: subscriptionPeriod.convertFromPigeon(),
+        isEligibleForIntroOffer: isEligibleForIntroOffer);
   }
 }
 
@@ -318,10 +322,11 @@ class SK2Product {
       );
     }
 
-    return productsMsg
+    List<SK2Product> products = productsMsg
         .whereType<SK2ProductMessage>()
         .map((SK2ProductMessage product) => product.convertFromPigeon())
         .toList();
+    return products;
   }
 
   /// Converts this instance of [SK2Product] to it's pigeon representation [SK2ProductMessage]

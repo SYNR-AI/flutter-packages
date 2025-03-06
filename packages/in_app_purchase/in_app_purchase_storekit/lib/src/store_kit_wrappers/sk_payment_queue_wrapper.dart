@@ -353,7 +353,7 @@ class SKError {
   ///
   /// Any key of the map must be a valid [NSErrorUserInfoKey](https://developer.apple.com/documentation/foundation/nserroruserinfokey?language=objc).
   @JsonKey(defaultValue: <String, dynamic>{})
-  final Map<String?, Object?>? userInfo;
+  final Map<String, Object?>? userInfo;
 
   @override
   bool operator ==(Object other) {
@@ -382,7 +382,7 @@ class SKError {
     return SKError(
         code: msg.code,
         domain: msg.domain,
-        userInfo: msg.userInfo ?? <String, Object>{});
+        userInfo: msg.userInfo?.cast<String, Object?>() ?? <String, Object>{});
   }
 }
 
@@ -435,9 +435,9 @@ class SKPaymentWrapper {
   ///
   /// Used to help the store detect irregular activity. See
   /// [applicationUsername](https://developer.apple.com/documentation/storekit/skpayment/1506116-applicationusername?language=objc)
-  /// for more details. For example, you can use a one-way hash of the user’s
-  /// account name on your server. Don’t use the Apple ID for your developer
-  /// account, the user’s Apple ID, or the user’s plaintext account name on
+  /// for more details. For example, you can use a one-way hash of the user's
+  /// account name on your server. Don't use the Apple ID for your developer
+  /// account, the user's Apple ID, or the user's plaintext account name on
   /// your server.
   final String? applicationUsername;
 
